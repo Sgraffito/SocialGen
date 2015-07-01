@@ -1,0 +1,149 @@
+<html>
+	<head>
+		<title>Generating Random Tweets || Socket.io</title>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script>
+		
+			var socket = io();
+					
+			// Randomized Tweets	
+			var user_titles = ["NYTimes", "ClaudeMonet", "RosaParks", "EdgarDegas"];
+			var user_at = ["@nytimes", "@saucypig", "@warbler", "@fig_newton"];
+			var user_tweet = ["David Sweat was captured about 16 miles from where fellow escapee was killed last week. http://cnn.it/1RG7sbs",
+			"How AB InBev’s takeover of craft beers affects beer drinkers: slate.me/1BXSagG pic.twitter.com/nGtacRfIPx",
+			"The Greek debt crisis, explained http://nyti.ms/1Inzat0",
+			"Finally, a way to see what’s happening in front of that enormous semi on the highway slate.com/blogs/future_t…"];
+			var user_icon = ["1.jpg", "2.jpg", "3.jpg", "4.jpg"];
+			var user_asset = ["1.jpg", "2.jpg", "3.jpg", "4.jpg"];
+			
+			// Generate random data when page loads
+			window.onload = function(){ 
+							
+                document.getElementById("title").innerHTML = "Title";
+                document.getElementById("at").innerHTML = "At";
+                document.getElementById("tweet").innerHTML = "Tweet";
+                setInterval(function() { 
+                    explode(); 
+                }, 1000);   
+            }
+            
+            function explode(){
+            
+            	// Resources for tweet
+            	var title = user_titles[Math.floor(Math.random() * 4)];
+            	var at = user_at[Math.floor(Math.random() * 4)];
+            	var tweet = user_tweet[Math.floor(Math.random() * 4)];
+            	var icon = user_icon[Math.floor(Math.random() * 4)];
+            	var asset = user_asset[Math.floor(Math.random() * 4)];
+            	
+            	// Image path
+            	var start = "/icons/";
+                var end = start + icon;
+                
+                // Image asset path
+                var assetStart = "/img/";
+                var assetEnd = assetStart + asset;
+
+				// Generate today's date/time
+				var newDate = new Date();
+				var datetime = newDate.today() + " @ " + newDate.timeNow();
+                document.getElementById("datetime").innerHTML = datetime;
+
+				var randomNumber = Math.floor(Math.random() * 4) + 1;
+				if ((randomNumber % 2) == 0) {
+					document.getElementById("userAsset").src = "";
+				}
+				else {
+					document.getElementById("userAsset").src = assetEnd;
+				}
+            	
+            	// Set HTML elements
+                document.getElementById("title").innerHTML = title;
+                document.getElementById("at").innerHTML = at;
+                document.getElementById("tweet").innerHTML = tweet;
+                document.getElementById("userIcon").src = end;
+							
+							
+				// Encode the user image in base64
+				encodeImage(end, function (dataURL) {
+					
+					// Append the user icon to the dictionary
+					var dictionary = {
+						"title": title, 
+						"at": at, 
+						"tweet": tweet,
+						"date" : datetime,
+						"icon" : dataURL,
+						"asset" : "nil"
+					};
+					
+					if ((randomNumber % 2) == 0) {
+						sendData(dictionary);
+					}
+					else {
+						// Get the next image
+						getNextImage(dictionary, assetEnd);
+					}
+				});	
+            }	
+
+		
+			function getNextImage(dic, imagePath) {	
+
+				// Encode the asset image in base64
+				encodeImage(imagePath, function (dataURL) {
+					
+					// Append the asset image to the dictionary
+					dic['asset'] = dataURL;
+					sendData(dic);					
+				});		
+			}
+			
+			function sendData(dic) {
+				// Finally, send the data
+				socket.emit('player name', dic);
+			}
+			
+            // Today's date
+			Date.prototype.today = function () { 
+				return ((this.getDate() < 10)?"0":"") + this.getDate() +"/"+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"/"+ this.getFullYear();
+			}
+
+			// Current time
+			Date.prototype.timeNow = function () {
+				 return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+			}
+			
+			// Encode image in base64
+			function encodeImage(imageUri, callback) {
+				var c = document.createElement('canvas');
+				var ctx = c.getContext("2d");
+				var img = new Image();
+				img.onload = function () {
+					c.width = this.width;
+					c.height = this.height;
+					ctx.drawImage(img, 0, 0);
+					var dataURL = c.toDataURL("image/jpeg");
+					callback(dataURL);
+				}
+				img.src = imageUri;
+			}
+			
+		</script>
+	</head>
+	
+	<body>
+		<h1>Adding random numbers</h1>
+		<h2 id="title">Something</h2>
+		<h2 id="at">Something</h2>
+		<h2 id="tweet">Something</h2>
+		<h2 id="datetime">Something</h2>
+		<div>
+		      <img id="userIcon" src="/icons/2.jpg" width="128" height="128" />
+		      <img id="userAsset" src="/img/2.jpg" width="450" height="300" />
+        </div>
+	</body>
+	</html>

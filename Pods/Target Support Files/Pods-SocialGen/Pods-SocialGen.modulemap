@@ -1,0 +1,6 @@
+framework module Pods_SocialGen {
+  umbrella header "Pods-SocialGen-umbrella.h"
+
+  export *
+  module * { export * }
+}

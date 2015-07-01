@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<title>Generating Random Photos || Socket.io</title>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script>
+		
+			var user_titles = ["NYTimes", "ClaudeMonet", "RosaParks", "EdgarDegas", "EmilyCarr"];
+			var user_image = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"];
+			
+			var socket = io();
+						
+			window.onload = function(){ 
+                setInterval(function() { 
+                    explode(); 
+                }, 5000);   
+            }
+            
+            function explode() {
+            	var user_icon = user_image[Math.floor(Math.random() * 5)];
+            	var user = user_titles[Math.floor(Math.random() * 5)];
+            	
+                document.getElementById("title").innerHTML = user;
+                
+                var start = "/img/";
+                var end = start + user_icon;
+                document.getElementById('userIcon').src = end;
+                
+            	// Encode the image as base64
+                encodeImage(end, function (dataURL) {
+    			
+					// Send to socket	
+					var dictionary = {
+						"image" : dataURL,
+						"user"  : user 
+					};
+					socket.emit('asset image', dictionary);
+				});
+            }
+			
+			// Encode image in base64
+			function encodeImage(imageUri, callback) {
+				var c = document.createElement('canvas');
+				var ctx = c.getContext("2d");
+				var img = new Image();
+				img.onload = function () {
+					c.width = this.width;
+					c.height = this.height;
+					ctx.drawImage(img, 0, 0);
+					var dataURL = c.toDataURL("image/jpeg");
+					callback(dataURL);
+				}
+				img.src = imageUri;
+			}
+		</script>
+		
+	</head>
+	
+	<body>
+		<h1>Random Images</h1>
+		<h2 id="title">Something</h2>
+		<div>
+		      <img id="userIcon" src="/img/2.jpg" width="150" height="100" />
+        </div>
+	</body>
+	</html>
