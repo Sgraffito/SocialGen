@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_CorePlot 6
 #define COCOAPODS_VERSION_PATCH_CorePlot 0
 
+// FBAnnotationClustering
+#define COCOAPODS_POD_AVAILABLE_FBAnnotationClustering
+#define COCOAPODS_VERSION_MAJOR_FBAnnotationClustering 0
+#define COCOAPODS_VERSION_MINOR_FBAnnotationClustering 1
+#define COCOAPODS_VERSION_PATCH_FBAnnotationClustering 2
+
 // PNChart
 #define COCOAPODS_POD_AVAILABLE_PNChart
 #define COCOAPODS_VERSION_MAJOR_PNChart 0

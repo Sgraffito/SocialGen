@@ -49,12 +49,14 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'CorePlot.framework'
+  install_framework 'FBAnnotationClustering.framework'
   install_framework 'PNChart.framework'
   install_framework 'Socket_IO_Client_Swift.framework'
   install_framework 'UICountingLabel.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'CorePlot.framework'
+  install_framework 'FBAnnotationClustering.framework'
   install_framework 'PNChart.framework'
   install_framework 'Socket_IO_Client_Swift.framework'
   install_framework 'UICountingLabel.framework'

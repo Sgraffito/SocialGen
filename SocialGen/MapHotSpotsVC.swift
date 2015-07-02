@@ -1,4 +1,3 @@
-//
 //  MapHotSpotsVC.swift
 //  SocialGen
 //
@@ -33,7 +32,6 @@ class MapHotSpotsVC : UIViewController, MKMapViewDelegate {
         self.addHandlers()
         self.socket.connect()
 
-        
         // Map zone
         let theSpan:MKCoordinateSpan = MKCoordinateSpanMake(1.0 , 1.0)
         let location:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 42.3314, longitude: -83.0458)
@@ -43,50 +41,30 @@ class MapHotSpotsVC : UIViewController, MKMapViewDelegate {
         let artwork = Artwork(title: "Test", subtitle: "More test", image: "1", locationName: "Somewhere" , coordinate: CLLocationCoordinate2D(latitude: 42.4414, longitude: -83.0458))
         mapView.addAnnotation(artwork)
         
-        // Timer
+        // Timer for adding new annotations (Every 3 seconds)
         var timer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: Selector("update"), userInfo: nil, repeats: true)
     }
     
+    // Add a new annotation every time the timer fires
     func update() {
         
+        // Check if there is content waiting to be added
         if self.values.count > 0 {
             
-            println("Adding annotation")
-            
+            // Generate random lat and long
             var lat = self.randRange(25, upper: 71.23)
             var long = self.randRange(-100, upper: -150)
-            
             let location:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: CLLocationDegrees(lat), longitude: CLLocationDegrees(long))
             
+            // Get the latest content added to the array
             var item = self.values[0] as TweetObject
             
-            if item.asset == "nil" {
-                // Do nothing for now
-//                var anotation = MKPointAnnotation()
-//                anotation.coordinate = location
-//                anotation.title = item.title
-//                anotation.subtitle = item.tweet
-//                self.mapView.addAnnotation(anotation)
-//                self.mapView.selectAnnotation(anotation, animated: true)
-                let artwork = Artwork(title: item.title, subtitle: item.tweet, image: "blueImage", locationName: "Somewhere" , coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long))
-                mapView.addAnnotation(artwork)
-                mapView.selectAnnotation(artwork, animated: true)
-            }
-            else {
-                let artwork = Artwork(title: item.title, subtitle: item.tweet, image: item.asset, locationName: "Somewhere" , coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long))
-                mapView.addAnnotation(artwork)
-                mapView.selectAnnotation(artwork, animated: true)
-                
-//                mapView.addAnnotation(artwork)
-//                var anotation = MKPointAnnotation()
-//                anotation.coordinate = location
-//                anotation.title = item.title
-//                anotation.subtitle = item.tweet
-//                self.mapView.addAnnotation(anotation)
-//                self.mapView.selectAnnotation(anotation, animated: true)
-            }
+            // Create new annotation
+            let artwork = Artwork(title: item.title, subtitle: item.tweet, image: item.asset, locationName: "Somewhere" , coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long))
+            mapView.addAnnotation(artwork)
+            mapView.selectAnnotation(artwork, animated: true)
             
-            // remove item from array
+            // remove content from array
             self.values.removeAtIndex(0)
         }
     }
@@ -150,60 +128,44 @@ class MapHotSpotsVC : UIViewController, MKMapViewDelegate {
             
             let view = annotation as! Artwork
             
+            // Custom pin
             anView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             anView.image = UIImage(named:"redDot")
             anView.canShowCallout = true
-            
-
-            let viewLeftAccessory : UIView = UIView(frame: CGRectMake(0, 0, 89, 59))
-            let temp : UIImageView = UIImageView(frame: CGRectMake(5, 5, 89 - 10, 59 - 10))
-            temp.contentMode = UIViewContentMode.ScaleAspectFit
-            viewLeftAccessory.addSubview(temp)
-            anView.leftCalloutAccessoryView = viewLeftAccessory
-            
-            
-//            UIView *viewLeftAccessory = [[UIView alloc] initWithFrame:CGRectMake(0, 0, pinView.frame.size.height, pinView.frame.size.height)]
-//            
-//            UIImageView *temp=[[UIImageView alloc] initWithFrame:CGRectMake(5, 5, pinView.frame.size.height- 10, pinView.frame.size.height -10)];
-//            temp.image = image;
-//            temp.contentMode = UIViewContentModeScaleAspectFit;
-//            
-//            [viewLeftAccessory addView:temp];
-//            
-//            pinView.leftCalloutAccessoryView=viewLeftAccessory;
-            
-            
-            
-            anView.leftCalloutAccessoryView = UIImageView(frame: CGRectMake(0, 0, 89, 59))
-            anView.leftCalloutAccessoryView.contentMode = UIViewContentMode.ScaleAspectFill
-            anView.leftCalloutAccessoryView.clipsToBounds = true
         
-//            if view.image == "1" {
-//                var assetImage = UIImageView(image: UIImage(named: view.image))
-//                anView.leftCalloutAccessoryView = assetImage
-//            }
-//            else if view.image == "blueImage" {
-//                var assetImage = UIImageView(image: UIImage(named: view.image))
-//                anView.leftCalloutAccessoryView = assetImage
-//            }
-//            else {
-//                
-//                // Image
-//                if let imageBase64 : String = view.image as String? {
-//                    
-//                    // Decode the Base64 image
-//                    var url : NSURL = NSURL(string: imageBase64)!
-//                    var decodedData : NSData = NSData(contentsOfURL: url)!
-//                    var decodedImage : UIImage = UIImage(data: decodedData)!
-//                    
-//                    // Set the cell image
-//                    // Set "Clip to subview" in storyboard on the UIImageView to prevent the image
-//                    // from begin too big for cell
+            if view.image == "1" {
+                // First image added
+                // Do nothing for now
+            }
+            else if view.image == "blueImage" {
+                // No image with tweet
+                // Do nothing for now
+            }
+            else {
+                let viewLeftAccessory : UIView = UIView(frame: CGRectMake(0, 0, 89, 59))
+                let temp : UIImageView = UIImageView(frame: CGRectMake(0, 0, 89, 59))
+                temp.clipsToBounds = true
+                temp.contentMode = UIViewContentMode.ScaleAspectFit
+                viewLeftAccessory.addSubview(temp)
+                anView.leftCalloutAccessoryView = viewLeftAccessory
+                
+                // Image
+                if let imageBase64 : String = view.image as String? {
+                    
+                    // Decode the Base64 image
+                    var url : NSURL = NSURL(string: imageBase64)!
+                    var decodedData : NSData = NSData(contentsOfURL: url)!
+                    var decodedImage : UIImage = UIImage(data: decodedData)!
+                    
+                    // Set the cell image
+                    // Set "Clip to subview" in storyboard on the UIImageView to prevent the image
+                    // from begin too big for cell
 //                    anView.leftCalloutAccessoryView.contentMode = UIViewContentMode.ScaleAspectFill
 //                    anView.leftCalloutAccessoryView = UIImageView(image: decodedImage)
-//                }
-//                
-//            }
+                    temp.image = decodedImage
+                }
+                
+            }
            
            
             // Add image to left callout

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0668CF79DACE8BE0944CF24D"
+               BlueprintIdentifier = "1D3C00C2030B52C365426C57"
                BuildableName = "Pods_SocialGen.framework"
                BlueprintName = "Pods-SocialGen"
                ReferencedContainer = "container:Pods.xcodeproj">

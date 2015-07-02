@@ -12,20 +12,24 @@
 	<dict>
 		<key>2ADBA6F15B88C1FA3D2DB7A2D481BCA1CA07F676</key>
 		<string>https://github.com/Sgraffito/iosDataBaseTesting.git</string>
+		<key>EBA677115D0035F67B23E3D0CCA4262F831575E8</key>
+		<string>https://github.com/Sgraffito/SocialGen2.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Socket-master/SocialGen/SocialGen.xcworkspace</string>
+	<string>SocialGen.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>2ADBA6F15B88C1FA3D2DB7A2D481BCA1CA07F676</key>
-		<string>../../..</string>
+		<string>../..</string>
+		<key>EBA677115D0035F67B23E3D0CCA4262F831575E8</key>
+		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/Sgraffito/iosDataBaseTesting.git</string>
+	<string>https://github.com/Sgraffito/SocialGen2.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>2ADBA6F15B88C1FA3D2DB7A2D481BCA1CA07F676</string>
+	<string>EBA677115D0035F67B23E3D0CCA4262F831575E8</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -34,7 +38,15 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>2ADBA6F15B88C1FA3D2DB7A2D481BCA1CA07F676</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Mac%20Apps</string>
+			<string></string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>EBA677115D0035F67B23E3D0CCA4262F831575E8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SocialGen</string>
 		</dict>
 	</array>
 </dict>

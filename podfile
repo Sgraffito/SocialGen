@@ -7,6 +7,7 @@ use_frameworks!
 pod 'Socket.IO-Client-Swift'
 pod 'CorePlot', '~> 1.6'
 pod 'PNChart'
+pod "FBAnnotationClustering"
 
 target 'SocialGen' do
 end

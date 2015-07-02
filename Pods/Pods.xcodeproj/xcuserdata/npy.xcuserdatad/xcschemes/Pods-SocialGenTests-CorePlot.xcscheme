@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50AC7313F378DAE21B421669"
+               BlueprintIdentifier = "62E7E13AE735707D505E06C7"
                BuildableName = "CorePlot.framework"
                BlueprintName = "Pods-SocialGenTests-CorePlot"
                ReferencedContainer = "container:Pods.xcodeproj">
